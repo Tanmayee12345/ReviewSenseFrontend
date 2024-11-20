@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Sentiment Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        /* Reset some default styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Styling the body with a background image */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: url('../static/cloth.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .nav-left {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar .nav-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .navbar .btn {
+            background-color: white;
+            color: #4CAF50;
+            border: 2px solid white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .btn:hover {
+            background-color: #45a049;
+            color: white;
+        }
+
+        /* Container styling */
+        .container {
+            background-color: #ffffff;
+            padding-bottom: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            margin: auto;
+            text-align: center;
+            margin-top: 170px; /* To adjust for fixed navbar height */
+        }
+
+        /* Header styling */
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            font-weight: 700;
+        }
+
+        /* Button styling */
+        .btn-main {
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 1.2rem;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .btn-main:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(72, 168, 87, 0.4);
+        }
+
+        p {
+            color: black;
+        }
+
+        /* Footer Styling */
+        .footer {
+            display: none;
+            background-color: #222;
+            color: white;
+            padding: 30px 20px;
+            margin-top: 50px;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+        .footer h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .footer .footer-links {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer .footer-links div {
+            flex: 1 1 200px;
+            padding: 10px;
+        }
+
+        .footer .footer-links div a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .footer .footer-links div a:hover {
+            text-decoration: underline;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar .nav-right {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .btn-main {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+
+            .footer .footer-links {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        /* Footer styling */
+        .footer1 {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+        }
+        img{
+            width: 10rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="nav-left">ReviewSense</div>
+        <div>
+            
+        </div>
+        <div class="nav-right">
+            <button class="btn" onclick="location.href='static/login.html'">Login</button>
+            <button class="btn" onclick="location.href='static/signup.html'">Signup</button>
+            <button class="btn" onclick="document.querySelector('.footer').style.display = 'block';">About</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div>
+            <img src="static/logo.png">
+        </div>
+        <h1>Welcome to Sentiment Analysis Review App</h1>
+        <!-- <p>Analyze women's clothing e-commerce reviews and predict recommendations.</p> -->
+        <!-- <img src="logo.png"> -->
+        <!-- <button class="btn-main" onclick="document.querySelector('.footer').style.display = 'block';">View Features</button> -->
+        <p>Analyze women's clothing e-commerce reviews and predict recommendations.</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-links"><div>
+            <h3>About</h3>
+            <p style="color: #ffffff; width: 70%;">
+                The ReviewSense app offers powerful, 
+                real-time<br> sentiment analysis, 
+                trend tracking and make data-driven decisions.
+            </p>
+        </div>
+            <div>
+                <h3>Features</h3>
+                <a href="#">Real-time sentiment analysis</a>
+                <a href="#">User-friendly interface</a>
+                <a href="#">Product Recommendations</a>
+                <a href="#">Advanced Analytics for Businesses</a>
+            </div>
+            <div>
+                <h3>Designers</h3>
+                <a href="#">Muvvala Sai Sruthi</a>
+                <a href="#">P Tanmayee</a>
+                <a href="#">Devata Pujitha</a>
+                <a href="#">Takkasila Lahari</a>
+                <a href="#"></a>
+            </div>
+            <div>
+                <h3>For Public</h3>
+                <a href="#">Terms of use</a>
+                <a href="#">Privacy Policy</a>
+                <a href="mailto:ReviewSense@gmail.com">Contact</a>
+            </div>
+        </div>
+        
+    </div>
+    <div class="footer1">
+        © 2024 ReviewSense. All Rights Reserved.
+    </div>
+</body>
+</html>

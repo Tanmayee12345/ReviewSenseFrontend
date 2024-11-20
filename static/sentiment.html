@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Sentiment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset some default styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Body styling with background image */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: url('../static/cloth.jpeg') no-repeat center center fixed; /* External background image */
+            background-size: cover; /* Ensure the background image covers the entire screen */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            margin: 0;
+        }
+
+        /* Container styling */
+        .container {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 450px; /* Reduced the container size */
+            width: 85%;
+            text-align: center;
+            position: absolute;
+            right: 10%; /* Moves the container slightly towards the right */
+            top: 50%; /* Centers the container vertically */
+            transform: translateY(-50%);
+        }
+
+        /* Header styling with reduced text size */
+        h1 {
+            font-size: 1.6rem; /* Reduced header text size */
+            margin-bottom: 20px;
+            color: #4CAF50; /* Green color for the header */
+            font-weight: 700;
+        }
+
+        /* Button styling with slightly reduced font size */
+        .btn {
+            background-color: #4CAF50; /* Green color for buttons */
+            color: #fff;
+            font-size: 1.1rem; /* Reduced button font size */
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Button hover effect */
+        .btn:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(72, 168, 87, 0.4);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+                max-width: 90%; /* Increase the width slightly for smaller screens */
+            }
+
+            h1 {
+                font-size: 1.4rem; /* Slightly smaller header text size for mobile */
+            }
+
+            .btn {
+                font-size: 1rem;
+                padding: 12px 30px;
+            }
+        }
+    </style>
+</head>
+<body class="question">
+    <div class="container">
+        <h1>Do you want to know the sentiment of a product?</h1>
+        <button class="btn" onclick="location.href='result.html'">Yes</button>
+        <button class="btn" onclick="alert('Thank you for visiting!')">No</button>
+    </div>
+</body>
+</html>

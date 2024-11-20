@@ -1,0 +1,18 @@
+[
+  { "id": "101", "review": "Positive", "recommended": true },
+  { "id": "102", "review": "Negative", "recommended": false },
+  { "id": "103", "review": "Positive", "recommended": true },
+  { "id": "104", "review": "Negative", "recommended": false },
+  { "id": "105", "review": "Positive", "recommended": true },
+  {"id":"63","review":"Negative","recommended":false},
+  {"id":"18","review":"Negative","recommended":false},
+  {"id":"220","review":"Negative","recommended":false},
+  {"id":"229","review":"Negative","recommended":false},
+  {"id":"235","review":"Negative","recommended":false},
+  {"id":"96","review":"Neutral","recommended":"Your opinion"},
+  {"id":"1045","review":"Positive","recommended":true},
+  {"id":"250","review":"Positive","recommended":true},
+  {"id":"314","review":"Negative","recommended":false},
+  {"id":"350","review":"Neutral","recommended":"Your opinion"}
+
+]
