@@ -1,9 +1,19 @@
-numpy
-matplotlib
-seaborn
-scikit-learn
-wordcloud
+# numpy
+# matplotlib
+# seaborn
+# scikit-learn
+# wordcloud
+# nltk
+# xgboost
+# streamlit
+# flask
+# keras
+
+Flask
+pandas
+keras
+tensorflow
 nltk
-xgboost
-streamlit
-flask
+scikit-learn
+gunicorn
+
