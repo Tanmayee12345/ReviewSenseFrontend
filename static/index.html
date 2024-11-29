@@ -36,7 +36,6 @@
         max-width: 400px;
         width: 100%;
         margin: 0 auto;
-        /* margin-right: 20px; */
     }
 
     label {
@@ -93,9 +92,7 @@
             font-size: 12px;
         }
     }
-</style>
-
-
+  </style>
 </head>
 <body>
   <h1>Submit a Review</h1>
@@ -144,7 +141,7 @@
       const data = Object.fromEntries(formData.entries());
 
       try {
-        const response = await fetch('http://localhost:3000/api/addReview', {
+        const response = await fetch('https://reviewsensebackend-1.onrender.com/api/addReview', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
@@ -154,7 +151,8 @@
           alert('Review added successfully!');
           e.target.reset();
         } else {
-          alert('Failed to add review. Please try again.');
+          const errorData = await response.json();
+          alert(`Failed to add review: ${errorData.message || 'Unknown error'}`);
         }
       } catch (error) {
         console.error('Error:', error);
