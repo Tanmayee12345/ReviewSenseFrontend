@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clothing Review</title>
+    <title>Clothing Review Sentiment</title>
     <style>
         /* Global Styles */
         body {
             font-family: 'Arial', sans-serif;
-            background-image: url('../static/cloth.jpeg'); /* Replace with your background image URL */
+            background-image: url('cloth.jpeg'); /* Replace with your background image URL */
             background-size: cover; /* Ensures the image covers the entire page */
             background-position: center; /* Centers the background image */
             color: #2C3E50; /* Default text color to dark green */
@@ -18,25 +18,36 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            flex-direction: column;
         }
 
         h2 {
             text-align: center;
             color: #27AE60; /* Green color for the heading */
             margin-bottom: 20px;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
+        }
+
+        /* Layout for Forms */
+        .forms-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap; /* Ensures forms stack on smaller screens */
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 1100px;
+            width: 90%;
+            margin-left: 20px;
         }
 
         /* Form Container Styles */
         .form-container {
             background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-            padding: 30px;
+            padding: 25px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
-            margin: 20px;
+            flex: 1; /* Makes forms flexible to fit available space */
         }
 
         /* Form Elements */
@@ -49,9 +60,11 @@
         }
 
         select,
+        input,
+        textarea,
         button {
             width: 100%;
-            padding: 12px;
+            padding: 8px;
             margin-top: 10px;
             font-size: 1rem;
             border-radius: 5px;
@@ -59,6 +72,8 @@
         }
 
         select:focus,
+        input:focus,
+        textarea:focus,
         button:focus {
             outline: none;
             border-color: #27AE60; /* Green border when focused */
@@ -95,60 +110,114 @@
         .success {
             color: #2ecc71;
         }
-        .result{
-            height: 4rem;
-        }
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <h2>Check Clothing Review</h2>
-        <form id="clothingForm">
-            <label for="clothingId">Select Clothing ID:</label>
-            <select id="clothingId" name="clothingId" required>
-                <option value="" disabled selected>Choose Clothing ID</option>
-                <option value="1045">1045</option>
-                <option value="250">250</option>
-                <option value="220">220</option>
-                <option value="63">63</option>
-                <option value="18">18</option>
-                <option value="96">96</option>
-            </select>
-            <button type="submit">Submit</button>
-        </form>
-        <div class="result" id="result"></div>
+    <div class="forms-container">
+        <div class="form-container" style="margin-top: 80px; margin-left: 189px;">
+            <h2>Clothing Review Sentiment</h2>
+            <!-- Sentiment Form -->
+            <form id="clothingForm">
+                <label for="clothingId">Select Clothing ID:</label>
+                <select id="clothingId" name="clothingId" required>
+                    <option value="" disabled selected>Select ID</option>
+                    <option value="1045">1045</option>
+                    <option value="250">250</option>
+                    <option value="220">220</option>
+                </select>
+                <button type="submit">Get Sentiment</button>
+            </form>
+            <div class="result" id="result"></div>
+        </div>
+
+        <div class="form-container">
+            <h2>Enter a Review</h2>
+            <!-- Review Form -->
+            <form id="reviewForm">
+                <label for="reviewClothingId">Clothing ID:</label>
+                <input type="text" id="reviewClothingId" name="reviewClothingId" style="margin-right: 20px;" placeholder="Enter Clothing ID" required >
+                <label for="reviewText">Your Review:</label>
+                <textarea id="reviewText" name="reviewText" placeholder="Write your review here..." rows="4" required></textarea>
+                <button type="submit">Submit Review</button>
+            </form>
+            <div class="result" id="reviewResult"></div>
+        </div>
     </div>
 
     <script>
-        document.getElementById('clothingForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+        // Fetch Sentiment Logic
+        document.getElementById('clothingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-            const clothingId = document.getElementById('clothingId').value;
+            var clothingId = document.getElementById('clothingId').value;
+
+            if (!clothingId) {
+                alert("Please select a Clothing ID.");
+                return;
+            }
 
             fetch('/predict', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    clothing_id: clothingId
-                })
+                body: JSON.stringify({ clothing_id: clothingId })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    document.getElementById('result').innerText = `Error: ${data.error}`;
+                    document.getElementById('result').innerHTML = 'Error: ' + data.error;
                 } else {
+                    var sentimentCounts = data.sentiment_counts || { 'Positive': 0, 'Negative': 0, 'Neutral': 0 };
                     document.getElementById('result').innerHTML = `
-                        Clothing ID: ${data.clothing_id} <br>
-                        Predicted Sentiment: ${data.predicted_sentiment} <br>
-                        Sentiment Counts: ${JSON.stringify(data.sentiment_counts)}
+                        <p><strong>Predicted Sentiment:</strong> ${data.predicted_sentiment}</p>
+                        <p>Clothing ID: ${clothingId}</p>
+                        <p><strong>Sentiment Counts:</strong></p>
+                        <p>Positive Reviews: ${sentimentCounts['Positive']}</p>
+                        <p>Negative Reviews: ${sentimentCounts['Negative']}</p>
                     `;
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('result').innerText = 'Error occurred while processing the request.';
+                document.getElementById('result').innerHTML = 'Error: ' + error.message;
+            });
+        });
+
+        // Submit Review Logic
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var reviewClothingId = document.getElementById('reviewClothingId').value;
+            var reviewText = document.getElementById('reviewText').value;
+
+            if (!reviewClothingId || !reviewText) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            fetch('https://673dd77e0118dbfe8608ffd2.mockapi.io/Review_Text', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    clothing_id: reviewClothingId,
+                    review: reviewText
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('reviewResult').innerHTML = `
+                    <p class="success">Review submitted successfully!</p>
+                    <p>Clothing ID: ${data.clothing_id}</p>
+                    <p>Your Review: ${data.review}</p>
+                `;
+                document.getElementById('reviewForm').reset();
+            })
+            .catch(error => {
+                document.getElementById('reviewResult').innerHTML = `
+                    <p class="error">Error: ${error.message}</p>
+                `;
             });
         });
     </script>

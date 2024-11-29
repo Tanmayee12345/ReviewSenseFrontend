@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Reviews</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-image: url('cloth.jpeg'); /* Replace with your background image URL */
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100vh;
+    }
+
+    h1 {
+        text-align: center;
+        margin: 20px 0;
+        color: #28a745;
+        font-size: 24px;
+    }
+
+    form {
+        background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background for readability */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds shadow for depth */
+        border-radius: 8px;
+        padding: 20px;
+        padding-right: 25px;
+        max-width: 400px;
+        width: 100%;
+        margin: 0 auto;
+        /* margin-right: 20px; */
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: bold;
+        color: #555;
+        font-size: 14px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        color: black;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: #28a745;
+        outline: none;
+        box-shadow: 0 0 4px rgba(40, 167, 69, 0.5);
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        background-color: #28a745;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #218838;
+    }
+
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 20px;
+        }
+
+        form {
+            padding: 15px;
+        }
+
+        label, input, select, textarea, button {
+            font-size: 12px;
+        }
+    }
+</style>
+
+
+</head>
+<body>
+  <h1>Submit a Review</h1>
+  <form id="reviewForm">
+    <label for="clothing_id">Clothing ID:</label>
+    <input type="number" id="clothing_id" name="clothing_id" required />
+
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" required />
+
+    <label for="title">Review Title:</label>
+    <input type="text" id="title" name="title" required />
+
+    <label for="review_text">Review Text:</label>
+    <textarea id="review_text" name="review_text" rows="4" required></textarea>
+
+    <label for="rating">Rating:</label>
+    <select id="rating" name="rating" required>
+      <option value="">--Select--</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+
+    <label for="positive_feedback_count">Positive Feedback Count:</label>
+    <input type="number" id="positive_feedback_count" name="positive_feedback_count" required />
+
+    <label for="division_name">Division Name:</label>
+    <input type="text" id="division_name" name="division_name" required />
+
+    <label for="department_name">Department Name:</label>
+    <input type="text" id="department_name" name="department_name" required />
+
+    <label for="class_name">Class Name:</label>
+    <input type="text" id="class_name" name="class_name" required />
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('http://localhost:3000/api/addReview', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          alert('Review added successfully!');
+          e.target.reset();
+        } else {
+          alert('Failed to add review. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please check the console for details.');
+      }
+    });
+  </script>
+</body>
+</html>

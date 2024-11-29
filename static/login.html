@@ -142,36 +142,43 @@
     <script>
         // Function to handle form submission
         document.getElementById('loginForm').addEventListener('submit', async function (event) {
-    event.preventDefault();  // Prevent default form submission
-
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    // Mock API URL
-    const mockApiUrl = 'https://673dd77e0118dbfe8608ffd2.mockapi.io/users';  // Mock URL
-
-    try {
-        // Fetch all users from the mock API
-        const response = await fetch(mockApiUrl);
-        const users = await response.json();
-
-        // Find the user with matching email and password
-        const user = users.find(u => u.email === email && u.password === password);
-
-        if (user) {
-            // Successful login
-            alert('Login successful!');
-            window.location.href = 'sentiment.html';  // Redirect to the sentiment analysis page
-        } else {
-            // Invalid credentials
-            alert('Invalid email or password. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error during login:', error);
-        alert('Something went wrong. Please try again later.');
-    }
-});
-
+            event.preventDefault(); // Prevent default form submission
+    
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+    
+            // Mock API URL
+            const mockApiUrl = 'https://673dd77e0118dbfe8608ffd2.mockapi.io/users'; // Mock URL
+    
+            try {
+                // Fetch all users from the mock API
+                const response = await fetch(mockApiUrl);
+                const users = await response.json();
+    
+                // Check if the admin credentials are provided
+                if (email === 'admin@gmail.com' && password === 'admin') {
+                    alert('Welcome Admin!');
+                    window.location.href = 'index.html'; // Redirect to the admin page
+                    return;
+                }
+    
+                // Find the user with matching email and password
+                const user = users.find(u => u.email === email && u.password === password);
+    
+                if (user) {
+                    // Successful login for other users
+                    alert('Login successful!');
+                    window.location.href = 'sentiment.html'; // Redirect to the sentiment analysis page
+                } else {
+                    // Invalid credentials
+                    alert('Invalid email or password. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error during login:', error);
+                alert('Something went wrong. Please try again later.');
+            }
+        });
     </script>
+    
 </body>
 </html>
